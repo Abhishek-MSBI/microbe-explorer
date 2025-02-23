@@ -8,6 +8,16 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 import { supabase } from "@/integrations/supabase/client";
 import { Search } from "lucide-react";
 
+type TaxonomyReference = {
+  id: number;
+  taxon_id: string;
+  scientific_name: string;
+  rank: string | null;
+  parent_taxon_id: string | null;
+  updated_at: string | null;
+  created_at: string | null;
+}
+
 export const AnalysisSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,7 +52,7 @@ export const AnalysisSection = () => {
         .from('taxonomy_references')
         .select('*')
         .order('scientific_name', { ascending: true })
-        .limit(10);
+        .limit(10) as { data: TaxonomyReference[] | null, error: Error | null };
 
       if (dbError) throw dbError;
 
@@ -58,7 +68,7 @@ export const AnalysisSection = () => {
           description: `Found ${taxonomyRefs.length} records`,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Error fetching taxonomy data",
@@ -80,7 +90,7 @@ export const AnalysisSection = () => {
               placeholder="Search taxonomy..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && searchTaxonomy()}
+              onKeyDown={(e) => e.key === 'Enter' && searchTaxonomy()}
             />
             <Button 
               onClick={searchTaxonomy}

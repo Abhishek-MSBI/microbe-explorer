@@ -9,7 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      taxonomy_references: {
+        Row: {
+          created_at: string | null
+          id: number
+          parent_taxon_id: string | null
+          rank: string | null
+          scientific_name: string
+          taxon_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          parent_taxon_id?: string | null
+          rank?: string | null
+          scientific_name: string
+          taxon_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          parent_taxon_id?: string | null
+          rank?: string | null
+          scientific_name?: string
+          taxon_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
