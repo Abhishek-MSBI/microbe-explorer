@@ -1,1 +1,5 @@
+
 project_id = "enkstaldgdbumxsdjioa"
+
+[functions.fetch-taxonomy]
+verify_jwt = false
